@@ -1,0 +1,28 @@
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: main
+jobs:
+- job: Job_1
+  displayName: Agent job 1
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+  - checkout: self
+    clean: true
+    fetchTags: false
+  - task: Npm@1
+    displayName: Install Node.js dependencies
+    inputs:
+      workingDir: react-ui
+      version: '9.5.1'
+      verbose: false
+  - task: Npm@1
+    displayName: Build react front end
+    inputs:
+      command: custom
+      workingDir: react-ui
+      verbose: false
+      customCommand: run build
+...
